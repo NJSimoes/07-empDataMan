@@ -26,7 +26,8 @@ $('#addEmployee').on('click', function(event){
         name: name,
         role: role,
         startDate: startDate,
-        monthlyRate: monthlyRate
+        monthlyRate: monthlyRate,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
     });
 
 });
@@ -35,10 +36,15 @@ $('#addEmployee').on('click', function(event){
         var sv = snapshot.val();
 
         console.log(sv);
+        addRow(sv);
     });
 });
 
 function addRow(object){
     var row = $('<tr>');
-    
+    row.append($('<td>').text(object.name));
+    row.append($('<td>').text(object.role));
+    row.append($('<td>').text(object.startDate));
+    row.append($('<td>').text(object.monthlyRate));
+    $('#employeeTableBody').append(row);
 }
