@@ -22,13 +22,20 @@ $('#addEmployee').on('click', function(event){
     var monthlyRate = $('#monthlyRate').val().trim();
 
     console.log('Grabbed the values');
-    database.ref().push({
-        name: name,
-        role: role,
-        startDate: startDate,
-        monthlyRate: monthlyRate,
-        dateAdded: firebase.database.ServerValue.TIMESTAMP
-    });
+
+    if(name != '' && role != '' && startDate != '' && monthlyRate != '' ){
+
+        database.ref().push({
+            name: name,
+            role: role,
+            startDate: startDate,
+            monthlyRate: monthlyRate,
+            dateAdded: firebase.database.ServerValue.TIMESTAMP
+        });
+    }else{
+        alert('No Data');
+        return;
+    }
 
 });
 
@@ -41,10 +48,13 @@ $('#addEmployee').on('click', function(event){
 });
 
 function addRow(object){
+    var monthsWorked = Math.floor(moment().diff(moment(object.startDate), 'months', true));
     var row = $('<tr>');
-    row.append($('<td>').text(object.name));
+    row.append($('<th scope="row">').text(object.name));
     row.append($('<td>').text(object.role));
-    row.append($('<td>').text(object.startDate));
+    row.append($('<td>').text(moment(object.startDate).format('DD/MM/YYYY')));
+    row.append($('<td>').text(monthsWorked));
     row.append($('<td>').text(object.monthlyRate));
+    row.append($('<td>').text(object.monthlyRate * monthsWorked));
     $('#employeeTableBody').append(row);
 }
