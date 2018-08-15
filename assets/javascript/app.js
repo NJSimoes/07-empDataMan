@@ -39,5 +39,6 @@ $('#addEmployee').on('click', function(event){
 });
 
 function addRow(object){
-
+    var row = $('<tr>');
+    
 }
