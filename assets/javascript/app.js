@@ -48,7 +48,7 @@ $('#addEmployee').on('click', function(event){
 });
 
 function addRow(object){
-    var monthsWorked = Math.floor(moment().diff(moment(object.startDate), 'months', true));
+    var monthsWorked = moment().diff(moment(object.startDate), 'months', false);
     var row = $('<tr>');
     row.append($('<th scope="row">').text(object.name));
     row.append($('<td>').text(object.role));
