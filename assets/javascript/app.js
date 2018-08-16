@@ -33,7 +33,7 @@ $('#addEmployee').on('click', function(event){
             dateAdded: firebase.database.ServerValue.TIMESTAMP
         });
     }else{
-        alert('No Data');
+        alert('Please enter data into all fields.');
         return;
     }
 
