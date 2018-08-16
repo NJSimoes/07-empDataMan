@@ -21,7 +21,13 @@ $('#addEmployee').on('click', function(event){
     var startDate = $('#startDate').val().trim();
     var monthlyRate = $('#monthlyRate').val().trim();
 
-    console.log('Grabbed the values');
+
+    if(moment().diff(startDate) < 0){
+        var confirmation = confirm('This is a future date.');
+        if(!confirmation){
+            return;
+        }
+    }
 
     if(name != '' && role != '' && startDate != '' && monthlyRate != '' ){
 
@@ -48,13 +54,14 @@ $('#addEmployee').on('click', function(event){
 });
 
 function addRow(object){
-    var monthsWorked = moment().diff(moment(object.startDate), 'months', false);
+    var monthsWorked = moment().diff(moment(object.startDate), 'months', false) > 0 ? moment().diff(moment(object.startDate), 'months', false) : 0;
+    var totalBilled = parseInt(object.monthlyRate) * parseInt(monthsWorked) > 0 ? parseInt(object.monthlyRate) * parseInt(monthsWorked) : 0;
     var row = $('<tr>');
     row.append($('<th scope="row">').text(object.name));
     row.append($('<td>').text(object.role));
     row.append($('<td>').text(moment(object.startDate).format('DD/MM/YYYY')));
     row.append($('<td>').text(monthsWorked));
     row.append($('<td>').text(object.monthlyRate));
-    row.append($('<td>').text(object.monthlyRate * monthsWorked));
+    row.append($('<td>').text(totalBilled));
     $('#employeeTableBody').append(row);
 }
